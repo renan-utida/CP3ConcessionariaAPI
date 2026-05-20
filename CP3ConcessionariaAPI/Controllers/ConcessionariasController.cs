@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CP3ConcessionariaAPI.Data;
 using CP3ConcessionariaAPI.Models;
@@ -35,22 +30,27 @@ namespace CP3ConcessionariaAPI.Controllers
             var concessionaria = await _context.Concessionarias.FindAsync(id);
 
             if (concessionaria == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Concessionária não encontrada." });
 
             return concessionaria;
         }
 
+        // POST: api/Concessionarias
+        [HttpPost]
+        public async Task<ActionResult<Concessionaria>> PostConcessionaria(Concessionaria concessionaria)
+        {
+            _context.Concessionarias.Add(concessionaria);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetConcessionaria), new { id = concessionaria.IdConcessionaria }, concessionaria);
+        }
+
         // PUT: api/Concessionarias/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutConcessionaria(int id, Concessionaria concessionaria)
         {
             if (id != concessionaria.IdConcessionaria)
-            {
-                return BadRequest();
-            }
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
             _context.Entry(concessionaria).State = EntityState.Modified;
 
@@ -61,38 +61,23 @@ namespace CP3ConcessionariaAPI.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!ConcessionariaExists(id))
-                {
-                    return NotFound();
-                }
+                    return NotFound(new { mensagem = "Concessionária não encontrada." });
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: api/Concessionarias
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Concessionaria>> PostConcessionaria(Concessionaria concessionaria)
-        {
-            _context.Concessionarias.Add(concessionaria);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetConcessionaria", new { id = concessionaria.IdConcessionaria }, concessionaria);
-        }
 
         // DELETE: api/Concessionarias/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConcessionaria(int id)
         {
             var concessionaria = await _context.Concessionarias.FindAsync(id);
+
             if (concessionaria == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Concessionária não encontrada." });
 
             _context.Concessionarias.Remove(concessionaria);
             await _context.SaveChangesAsync();

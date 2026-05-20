@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CP3ConcessionariaAPI.Data;
 using CP3ConcessionariaAPI.Models;
+using CP3ConcessionariaAPI.Services;
 
 namespace CP3ConcessionariaAPI.Controllers
 {
@@ -15,10 +11,12 @@ namespace CP3ConcessionariaAPI.Controllers
     public class FinanciamentosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FinanciamentoService _financiamentoService;
 
-        public FinanciamentosController(AppDbContext context)
+        public FinanciamentosController(AppDbContext context, FinanciamentoService financiamentoService)
         {
             _context = context;
+            _financiamentoService = financiamentoService;
         }
 
         // GET: api/Financiamentos
@@ -35,22 +33,42 @@ namespace CP3ConcessionariaAPI.Controllers
             var financiamento = await _context.Financiamentos.FindAsync(id);
 
             if (financiamento == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Financiamento não encontrado." });
 
             return financiamento;
         }
 
+        // POST: api/Financiamentos
+        [HttpPost]
+        public async Task<ActionResult<Financiamento>> PostFinanciamento(Financiamento financiamento)
+        {
+            // Calcula parcela automaticamente
+            financiamento = _financiamentoService.PreencherFinanciamento(financiamento);
+            var score = _financiamentoService.AvaliarScore(financiamento.ValorVeiculo, financiamento.ValorEntrada);
+
+            if (score == "REPROVADO")
+                return BadRequest(new { mensagem = "Financiamento reprovado. Entrada mínima de 10% do valor do veículo.", score });
+
+            _context.Financiamentos.Add(financiamento);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetFinanciamento), new { id = financiamento.IdProduto }, new
+            {
+                financiamento,
+                score,
+                mensagem = "Financiamento criado com sucesso."
+            });
+        }
+
         // PUT: api/Financiamentos/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFinanciamento(int id, Financiamento financiamento)
         {
             if (id != financiamento.IdProduto)
-            {
-                return BadRequest();
-            }
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
+
+            // Recalcula parcela ao atualizar
+            financiamento = _financiamentoService.PreencherFinanciamento(financiamento);
 
             _context.Entry(financiamento).State = EntityState.Modified;
 
@@ -61,27 +79,12 @@ namespace CP3ConcessionariaAPI.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!FinanciamentoExists(id))
-                {
-                    return NotFound();
-                }
+                    return NotFound(new { mensagem = "Financiamento não encontrado." });
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
-        }
-
-        // POST: api/Financiamentos
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Financiamento>> PostFinanciamento(Financiamento financiamento)
-        {
-            _context.Financiamentos.Add(financiamento);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFinanciamento", new { id = financiamento.IdProduto }, financiamento);
         }
 
         // DELETE: api/Financiamentos/5
@@ -89,10 +92,9 @@ namespace CP3ConcessionariaAPI.Controllers
         public async Task<IActionResult> DeleteFinanciamento(int id)
         {
             var financiamento = await _context.Financiamentos.FindAsync(id);
+
             if (financiamento == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Financiamento não encontrado." });
 
             _context.Financiamentos.Remove(financiamento);
             await _context.SaveChangesAsync();
