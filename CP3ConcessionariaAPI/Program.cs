@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CP3ConcessionariaAPI.Data;
-// using CP3ConcessionariaAPI.Services;
+using CP3ConcessionariaAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("OracleConnecti
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(connectionString));
 
-// builder.Services.AddScoped<FinanciamentoService>();
+builder.Services.AddScoped<FinanciamentoService>();
 
 var app = builder.Build();
 
