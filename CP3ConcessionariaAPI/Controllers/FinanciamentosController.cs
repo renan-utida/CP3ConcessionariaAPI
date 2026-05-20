@@ -67,8 +67,11 @@ namespace CP3ConcessionariaAPI.Controllers
             if (id != financiamento.IdProduto)
                 return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
-            // Recalcula parcela ao atualizar
             financiamento = _financiamentoService.PreencherFinanciamento(financiamento);
+            var score = _financiamentoService.AvaliarScore(financiamento.ValorVeiculo, financiamento.ValorEntrada);
+
+            if (score == "REPROVADO")
+                return BadRequest(new { mensagem = "Financiamento reprovado. Entrada mínima de 10% do valor do veículo.", score });
 
             _context.Entry(financiamento).State = EntityState.Modified;
 
