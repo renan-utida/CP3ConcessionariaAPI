@@ -496,3 +496,32 @@ Para evitar erros de chave estrangeira, siga esta ordem:
 > Os scripts SQL de consulta e reset estão disponíveis em `docs/sql/CP3_consultas.sql`
  
 ---
+
+## 7. Testes
+ 
+> **Nota:** Testes automatizados com `dotnet test` não foram implementados neste checkpoint, pois este conteúdo não foi trabalhado em aula até a data de entrega.
+ 
+Os fluxos críticos foram validados manualmente via **Swagger UI** e **Postman**, cobrindo todos os cenários obrigatórios:
+ 
+| Fluxo Crítico | Validação | Status |
+|---|---|---|
+| Cadastro PF com CPF duplicado | Retorna `400` com mensagem | Correto |
+| Cadastro PJ com CNPJ duplicado | Retorna `400` com mensagem | Correto |
+| Vincular cliente a concessionária inexistente | Retorna `400` com mensagem | Correto |
+| Contratação válida | Retorna `202 Accepted` com status `PENDENTE` | Correto |
+| Contratação com cliente inexistente | Retorna `404` com mensagem | Correto |
+| Consulta de status da contratação | Retorna contratação completa com cliente e produto | Correto |
+| Financiamento reprovado por score | Retorna `400` com score `REPROVADO` | Correto |
+| Cálculo automático de parcela (fórmula Price) | `valorParcela` calculado automaticamente | Correto |
+| Score ANALISE (entrada entre 10% e 29%) | Retorna `201` com score `ANALISE` | Correto |
+| PUT de financiamento reprovado | Retorna `400`, dado anterior mantido no banco | Correto |
+ 
+---
+ 
+## 8. Mensageria (RabbitMQ)
+ 
+> **Nota:** A implementação de filas com RabbitMQ não foi trabalhada em aula até a data de entrega deste checkpoint e não faz parte do escopo avaliado.
+ 
+---
+
+
