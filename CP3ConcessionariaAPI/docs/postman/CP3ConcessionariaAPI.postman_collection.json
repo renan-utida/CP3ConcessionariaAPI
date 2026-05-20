@@ -1,0 +1,387 @@
+{
+  "info": {
+    "name": "CP3ConcessionariaAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Concessionarias",
+      "item": [
+        {
+          "name": "01 - Cadastrar Concessionaria",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmConcessionaria\": \"Concessionária Centro SP\",\n  \"cep\": \"01310100\",\n  \"dsEndereco\": \"Av. Paulista, 1000 - Bela Vista, São Paulo\"\n}"
+            },
+            "url": "https://localhost:7187/api/Concessionarias"
+          }
+        },
+        {
+          "name": "02 - Buscar Concessionaria por ID",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Concessionarias/1"
+          }
+        },
+        {
+          "name": "03 - Buscar Concessionaria ID Invalido (404)",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Concessionarias/999"
+          }
+        },
+        {
+          "name": "04 - Listar Todas as Concessionarias",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Concessionarias"
+          }
+        },
+        {
+          "name": "05 - Atualizar Concessionaria",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idConcessionaria\": 1,\n  \"nmConcessionaria\": \"Concessionária Paulista Atualizada\",\n  \"cep\": \"01310200\",\n  \"dsEndereco\": \"Av. Paulista, 2000 - Bela Vista, São Paulo\"\n}"
+            },
+            "url": "https://localhost:7187/api/Concessionarias/1"
+          }
+        },
+        {
+          "name": "06 - Deletar Concessionaria",
+          "request": {
+            "method": "DELETE",
+            "url": "https://localhost:7187/api/Concessionarias/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "07 - Cadastrar PessoaFisica",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idConcessionaria\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2001-10-10\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf"
+          }
+        },
+        {
+          "name": "08 - Cadastrar PF - CPF Duplicado (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmCliente\": \"Renan CPF Duplicado\",\n  \"idConcessionaria\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2001-11-11\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf"
+          }
+        },
+        {
+          "name": "09 - Cadastrar PF - Concessionaria Inexistente (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmCliente\": \"Cliente Sem Concessionaria\",\n  \"idConcessionaria\": 999,\n  \"cpf\": \"99999999999\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf"
+          }
+        },
+        {
+          "name": "10 - Cadastrar PessoaJuridica",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmCliente\": \"Empresa Teste LTDA\",\n  \"idConcessionaria\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"Empresa Teste Ltda\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pj"
+          }
+        },
+        {
+          "name": "11 - Cadastrar PJ - CNPJ Duplicado (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmCliente\": \"Empresa CNPJ Duplicado\",\n  \"idConcessionaria\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"ERRO\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pj"
+          }
+        },
+        {
+          "name": "12 - Buscar Cliente por ID",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Clientes/1"
+          }
+        },
+        {
+          "name": "13 - Buscar Cliente ID Invalido (404)",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Clientes/999"
+          }
+        },
+        {
+          "name": "14 - Listar Todos os Clientes",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Clientes"
+          }
+        },
+        {
+          "name": "15 - Atualizar PessoaFisica",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias Atualizado\",\n  \"idConcessionaria\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2001-10-10\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf/1"
+          }
+        },
+        {
+          "name": "16 - Atualizar PF - ID Divergente (400)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias\",\n  \"idConcessionaria\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2001-10-10\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf/99"
+          }
+        },
+        {
+          "name": "17 - Atualizar PF com ID de PJ (404)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 2,\n  \"nmCliente\": \"Tentando atualizar PJ como PF\",\n  \"idConcessionaria\": 1,\n  \"cpf\": \"11111111111\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pf/2"
+          }
+        },
+        {
+          "name": "18 - Atualizar PessoaJuridica",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 2,\n  \"nmCliente\": \"Empresa Teste Atualizada LTDA\",\n  \"idConcessionaria\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"Empresa Teste Atualizada Ltda\"\n}"
+            },
+            "url": "https://localhost:7187/api/Clientes/pj/2"
+          }
+        },
+        {
+          "name": "19 - Deletar PessoaFisica",
+          "request": {
+            "method": "DELETE",
+            "url": "https://localhost:7187/api/Clientes/pf/1"
+          }
+        },
+        {
+          "name": "20 - Deletar PessoaJuridica",
+          "request": {
+            "method": "DELETE",
+            "url": "https://localhost:7187/api/Clientes/pj/2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Financiamentos",
+      "item": [
+        {
+          "name": "21 - Cadastrar Financiamento APROVADO",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmProduto\": \"Financiamento HB20\",\n  \"valorVeiculo\": 80000,\n  \"valorEntrada\": 30000,\n  \"taxaJuros\": 1.5,\n  \"prazoMeses\": 48,\n  \"valorParcela\": 0\n}"
+            },
+            "url": "https://localhost:7187/api/Financiamentos"
+          }
+        },
+        {
+          "name": "22 - Cadastrar Financiamento ANALISE",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmProduto\": \"Financiamento Onix\",\n  \"valorVeiculo\": 60000,\n  \"valorEntrada\": 8000,\n  \"taxaJuros\": 1.8,\n  \"prazoMeses\": 60,\n  \"valorParcela\": 0\n}"
+            },
+            "url": "https://localhost:7187/api/Financiamentos"
+          }
+        },
+        {
+          "name": "23 - Cadastrar Financiamento REPROVADO (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nmProduto\": \"Financiamento Reprovado\",\n  \"valorVeiculo\": 50000,\n  \"valorEntrada\": 2000,\n  \"taxaJuros\": 2.0,\n  \"prazoMeses\": 36,\n  \"valorParcela\": 0\n}"
+            },
+            "url": "https://localhost:7187/api/Financiamentos"
+          }
+        },
+        {
+          "name": "24 - Buscar Financiamento por ID",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Financiamentos/1"
+          }
+        },
+        {
+          "name": "25 - Buscar Financiamento ID Invalido (404)",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Financiamentos/999"
+          }
+        },
+        {
+          "name": "26 - Listar Todos os Financiamentos",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Financiamentos"
+          }
+        },
+        {
+          "name": "27 - Atualizar Financiamento APROVADO",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idProduto\": 1,\n  \"nmProduto\": \"Financiamento HB20 Atualizado\",\n  \"valorVeiculo\": 80000,\n  \"valorEntrada\": 25000,\n  \"taxaJuros\": 1.2,\n  \"prazoMeses\": 36,\n  \"valorParcela\": 0\n}"
+            },
+            "url": "https://localhost:7187/api/Financiamentos/1"
+          }
+        },
+        {
+          "name": "28 - Atualizar Financiamento REPROVADO (400)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idProduto\": 1,\n  \"nmProduto\": \"Financiamento HB20\",\n  \"valorVeiculo\": 80000,\n  \"valorEntrada\": 1000,\n  \"taxaJuros\": 1.5,\n  \"prazoMeses\": 48,\n  \"valorParcela\": 0\n}"
+            },
+            "url": "https://localhost:7187/api/Financiamentos/1"
+          }
+        },
+        {
+          "name": "29 - Deletar Financiamento",
+          "request": {
+            "method": "DELETE",
+            "url": "https://localhost:7187/api/Financiamentos/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contratacoes",
+      "item": [
+        {
+          "name": "30 - Solicitar Contratacao (202)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 1,\n  \"idProduto\": 1\n}"
+            },
+            "url": "https://localhost:7187/api/Contratacoes"
+          }
+        },
+        {
+          "name": "31 - Contratar - Cliente Inexistente (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 999,\n  \"idProduto\": 1\n}"
+            },
+            "url": "https://localhost:7187/api/Contratacoes"
+          }
+        },
+        {
+          "name": "32 - Contratar - Produto Inexistente (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCliente\": 1,\n  \"idProduto\": 999\n}"
+            },
+            "url": "https://localhost:7187/api/Contratacoes"
+          }
+        },
+        {
+          "name": "33 - Buscar Contratacao por ID",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Contratacoes/1"
+          }
+        },
+        {
+          "name": "34 - Buscar Contratacao ID Invalido (404)",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Contratacoes/999"
+          }
+        },
+        {
+          "name": "35 - Listar Todas as Contratacoes",
+          "request": {
+            "method": "GET",
+            "url": "https://localhost:7187/api/Contratacoes"
+          }
+        },
+        {
+          "name": "36 - Atualizar Status Contratacao APROVADO",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idContratacao\": 1,\n  \"idCliente\": 1,\n  \"idProduto\": 1,\n  \"status\": \"APROVADO\",\n  \"dtSolicitacao\": \"2026-05-20T00:00:00\"\n}"
+            },
+            "url": "https://localhost:7187/api/Contratacoes/1"
+          }
+        },
+        {
+          "name": "37 - Deletar Contratacao",
+          "request": {
+            "method": "DELETE",
+            "url": "https://localhost:7187/api/Contratacoes/1"
+          }
+        }
+      ]
+    }
+  ]
+}
