@@ -1,0 +1,6 @@
+@CP3ConcessionariaAPI_HostAddress = http://localhost:5118
+
+GET {{CP3ConcessionariaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
