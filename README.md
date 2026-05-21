@@ -837,10 +837,15 @@ CP3ConcessionariaAPI/
 │   ├── diagram/
 │   │   ├── Diagrama_CP3_Concessionaria_558540_C#.drawio
 │   │   └── Diagrama_CP3_Concessionaria_558540_C#.png
+│   ├── evidence/
+│   │   ├── (prints do Swagger)
+│   │   ├── (prints dos testes - 01 ao 34)
+│   │   └── (prints do banco de dados Oracle)
 │   ├── postman/
 │   │   └── CP3ConcessionariaAPI.postman_collection.json
-│   └── sql/
-│       └── CP3_consultas.sql
+│   ├── sql/
+│   │   └── CP3_consultas.sql
+│   └── CP3ConcessionariaAPI-Evidencias.pdf
 │
 ├── appsettings.json
 ├── appsettings.Development.json
